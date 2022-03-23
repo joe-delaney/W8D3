@@ -47,6 +47,7 @@ Board.DIRS = [
  * Checks if a given position is on the Board.
  */
 Board.prototype.isValidPos = function (pos) {
+  
   let x, y;
   [x,y] = pos;
 
@@ -216,6 +217,28 @@ Board.prototype.print = function () {
     console.log(row.join("|"));
     console.log("-".repeat(15));
   }
+};
+
+Board.prototype.winner = function() {
+  whiteCount = 0;
+  blackCount = 0;
+
+  for (let i = 0; i < this.grid.length; i++) {
+    for (let j = 0; j < this.grid[i].length; j++) {
+      if(this.grid[i][j].color === 'white') {
+        whiteCount++;
+      } else if (this.grid[i][j].color === 'black') {
+        blackCount++;
+      }
+    }
+  }
+
+  if(whiteCount > blackCount) {
+    return "White";
+  } else {
+    return "Black";
+  }
+
 };
 
 

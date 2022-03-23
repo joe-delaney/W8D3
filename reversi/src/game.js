@@ -3,23 +3,29 @@ if (typeof window === 'undefined'){
   var readline = require("readline");
   var Piece = require("./piece.js");
   var Board = require("./board.js");
+  var HumanPlayer = require("./humanPlayer.js");
+  var ComputerPlayer = require("./computerPlayer.js");
+
 }
 // DON'T TOUCH THIS CODE
-
 /**
  * Sets up the game with a board and the first player to play a turn.
  */
 function Game () {
   this.board = new Board();
-  this.turn = "black";
+  // this.turn = "black";
+  this.player1 = new ComputerPlayer('black', this);
+  this.player2 = new ComputerPlayer('white', this);
+  this.currentPlayer = this.player1;
 };
 
 /**
  * Flips the current turn to the opposite color.
  */
 Game.prototype._flipTurn = function () {
-  this.turn = (this.turn == "black") ? "white" : "black";
+  this.currentPlayer = (this.currentPlayer === this.player1) ? this.player2 : this.player1;
 };
+// this.turn = (this.turn == "black") ? "white" : "black";
 
 // Dreaded global state!
 let rlInterface;
@@ -44,26 +50,27 @@ Game.prototype.play = function () {
  * Gets the next move from the current player and
  * attempts to make the play.
  */
-Game.prototype.playTurn = function (callback) {
-  this.board.print();
-  rlInterface.question(
-    `${this.turn}, where do you want to move?`,
-    handleResponse.bind(this)
-  );
+// Game.prototype.playTurn = function (callback) {
+//   this.board.print();
+//   rlInterface.question(
+//     `${this.turn}, where do you want to move?`,
+//     handleResponse.bind(this)
+//   );
 
-  function handleResponse(answer) {
-    const pos = JSON.parse(answer);
-    if (!this.board.validMove(pos, this.turn)) {
-      console.log("Invalid move!");
-      this.playTurn(callback);
-      return;
-    }
+//   function handleResponse(answer) {
+//     const pos = JSON.parse(answer);
 
-    this.board.placePiece(pos, this.turn);
-    this._flipTurn();
-    callback();
-  }
-};
+//     if (!this.board.validMove(pos, this.turn)) {
+//       console.log("Invalid move!");
+//       this.playTurn(callback);
+//       return;
+//     }
+
+//     this.board.placePiece(pos, this.turn);
+//     this._flipTurn();
+//     callback();
+//   }
+// };
 
 /**
  * Continues game play, switching turns, until the game is over.
@@ -71,13 +78,15 @@ Game.prototype.playTurn = function (callback) {
 Game.prototype.runLoop = function (overCallback) {
   if (this.board.isOver()) {
     console.log("The game is over!");
+    let winner = this.board.winner();
+    console.log(`${winner} Wins!`)
     overCallback();
-  } else if (!this.board.hasMove(this.turn)) {
-    console.log(`${this.turn} has no move!`);
+  } else if (!this.board.hasMove(this.currentPlayer.color)) {
+    console.log(`${this.currentPlayer.color} has no move!`);
     this._flipTurn();
     this.runLoop();
   } else {
-    this.playTurn(this.runLoop.bind(this, overCallback));
+    this.currentPlayer.playTurn(this.runLoop.bind(this, overCallback));
   }
 };
 
@@ -87,5 +96,5 @@ if (typeof window === 'undefined') {
 }
 // DON'T TOUCH THIS CODE
 
-g = new Game();
-g.play();
+// g = new Game();
+// g.play();
