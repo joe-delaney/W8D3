@@ -86,3 +86,6 @@ if (typeof window === 'undefined') {
   module.exports = Game;
 }
 // DON'T TOUCH THIS CODE
+
+g = new Game();
+g.play();
