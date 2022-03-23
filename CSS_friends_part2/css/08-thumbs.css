@@ -26,27 +26,27 @@
   border-radius: 5px;
 }
 
-.thumb:before {
+.thumb:hover:before {
     content: "";
-    display: none;
+    display: absolute;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     top: -7px;
-    border-top: 5px solid #000;
+    border-top: 5px solid red;
     border-bottom: 0;
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
 }
 
-.thumb:after {
+.thumb:hover:after {
     content: attr(title);
-    display: none;
+    display: absolute;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     bottom: 65px;
-    background: #000;
+    background: red;
     color: #fff;
     font-size: 12px;
     padding: 5px 10px;
