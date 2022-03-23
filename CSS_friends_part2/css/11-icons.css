@@ -1,1 +1,36 @@
 /* PHASE 5: Icons */
+[class*="icon-"] {
+  display: inline-block;
+  background-image: url(http://appacademy.github.io/css-friends/shared/img/sprite.png);
+  background-size: 25px 250px;
+  background-repeat: no-repeat;
+  vertical-align: bottom;
+  overflow: hidden;
+  height: 0;
+  width: 25px;
+  padding-top: 25px;
+}
+
+.icon-comment {
+  background-position: 0 0;
+}
+
+.icon-reblog {
+  background-position: 0 -100px;
+}
+
+.icon-favorite {
+    background-position: 0 -50px;
+}
+
+.icon-comment:hover {
+  background-position: 0 -25px;
+}
+
+.icon-reblog:hover {
+  background-position: 0 -125px;
+}
+
+.icon-favorite:hover {
+    background-position: 0 -75px;
+}
